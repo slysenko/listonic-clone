@@ -1,23 +1,34 @@
 <script setup lang="ts">
-const props = defineProps(["data"]);
+const props = defineProps(["title", "selectedProducts"]);
 </script>
 
 <template>
-  <RouterLink>
-    <div class="card w-75 mb-3">
-      <div class="card-body">
-        <h5 class="card-title">{{ props.data.name }}</h5>
-        <div
-          class="progress"
-          role="progressbar"
-          aria-valuenow="0"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          style="height: 5px"
-        >
-          <div class="progress-bar" style="width: 0%"></div>
+  <div class="card h-auto">
+    <div class="card-body p-3">
+      <h5 class="card-title">{{ props.title }}</h5>
+      <div
+        class="progress"
+        role="progressbar"
+        aria-valuenow="0"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        style="height: 5px"
+      >
+        <div class="progress-bar" style="width: 0%"></div>
+      </div>
+      <div v-for="product in props.selectedProducts" :key="product.name">
+        <p>{{ product }}</p>
+      </div>
+      <div
+        class="d-flex flex-column w-auto flex-grow-1 align-items-center justify-content-center text-center py-5"
+      >
+        <img src="/strawberry-svgrepo-com.svg" class="m-5" alt="empty-list" width="15%" />
+        <div>
+          <h4>What would you like to buy?</h4>
+          <p>Start searching for products to add them to the list</p>
+          <button class="btn btn-primary" @click="$emit('onOpenProductsList')">Add products</button>
         </div>
       </div>
     </div>
-  </RouterLink>
+  </div>
 </template>

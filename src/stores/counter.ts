@@ -1,12 +1,18 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
+import { ref } from "vue";
+import { defineStore } from "pinia";
+import type { ProductItem } from "@/types";
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+export const useSelectedProductsStore = defineStore("selectedProducts", () => {
+  const selectedProducts = ref<Partial<Record<string, ProductItem>>>({});
+
+  function updateSelectedProducts(item: ProductItem) {
+    if (item.counter < 1) {
+      delete selectedProducts.value[item.name];
+    } else {
+      console.log(selectedProducts.value[item.name]);
+      // selectedProducts.value[item.name]?.counter = item.counter;
+    }
   }
 
-  return { count, doubleCount, increment }
-})
+  return { selectedProducts, updateSelectedProducts };
+});

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import ShoppingListCard from "../components/ShoppingListCard.vue";
+import ShoppingListItemCard from "../components/ShoppingListItemCard.vue";
 import CreateNewListModal from "../components/CreateNewListModal.vue";
 
 const title = ref("Your Shopping Lists");
@@ -25,7 +25,7 @@ function createNewList(event) {
     </div>
     <CreateNewListModal @onCreateNewList="createNewList" />
     <div v-for="list in lists" :key="list.name">
-      <ShoppingListCard :data="list" />
+      <ShoppingListItemCard :data="list" />
     </div>
   </main>
 </template>

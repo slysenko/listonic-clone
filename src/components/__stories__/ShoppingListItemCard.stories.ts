@@ -1,22 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import ShoppingListCard from "../ShoppingListCard.vue";
+import ShoppingListItemCard from "../ShoppingListItemCard.vue";
 
 const meta = {
-  title: "components/ShoppingListCard",
-  component: ShoppingListCard,
+  title: "components/ShoppingListItemCard",
+  component: ShoppingListItemCard,
   render: (args: any) => ({
-    components: { ShoppingListCard },
+    components: { ShoppingListItemCard },
     setup() {
       return { args };
     },
-    template: "<ShoppingListCard :data='args.data' />",
+    template: "<ShoppingListItemCard :data='args.data' />",
   }),
   parameters: {
     layout: "fullscreen",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof ShoppingListCard>;
+} satisfies Meta<typeof ShoppingListItemCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
