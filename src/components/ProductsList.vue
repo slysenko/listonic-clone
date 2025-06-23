@@ -3,7 +3,7 @@ import { ref, computed } from "vue";
 import ChooseProductButton from "./ChooseProductButton.vue";
 import { useMockServer } from "../server_mock/db_operations.ts";
 
-const emit = defineEmits(["updateProduct"]);
+const emit = defineEmits(["updateProduct", "close"]);
 
 const mockServer = useMockServer();
 mockServer.loadProducts();
@@ -22,6 +22,10 @@ const filteredProductsList = computed(() => {
 function onProductUpdate(event) {
   emit("updateProduct", event);
 }
+
+function onClose() {
+  emit("close");
+}
 </script>
 
 <template>
@@ -29,7 +33,7 @@ function onProductUpdate(event) {
     <div class="card-body">
       <div class="modal-header">
         <h5 class="card-title">{{ title }}</h5>
-        <button type="button" class="btn-close" aria-label="Close"></button>
+        <button type="button" class="btn-close" aria-label="Close" @click="onClose"></button>
       </div>
     </div>
     <input

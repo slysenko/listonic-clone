@@ -14,6 +14,10 @@ function onProductUpdate(event) {
   selectedProducts.value.push(event);
 }
 
+function onClose() {
+  isProductsListShown.value = false;
+}
+
 const title = ref("TITLE");
 </script>
 
@@ -27,8 +31,8 @@ const title = ref("TITLE");
           @onOpenProductsList="openProductsList"
         />
       </div>
-      <div class="col-6">
-        <ProductsList @updateProduct="onProductUpdate" />
+      <div class="col-6" v-if="isProductsListShown">
+        <ProductsList @updateProduct="onProductUpdate" @close="onClose" />
       </div>
     </div>
   </div>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ProductsListItem from "./ProductsListItem.vue";
+
 const props = defineProps(["title", "selectedProducts"]);
 </script>
 
@@ -16,19 +18,25 @@ const props = defineProps(["title", "selectedProducts"]);
       >
         <div class="progress-bar" style="width: 0%"></div>
       </div>
-      <div v-for="product in props.selectedProducts" :key="product.name">
-        <p>{{ product }}</p>
-      </div>
-      <div
-        class="d-flex flex-column w-auto flex-grow-1 align-items-center justify-content-center text-center py-5"
-      >
-        <img src="/strawberry-svgrepo-com.svg" class="m-5" alt="empty-list" width="15%" />
-        <div>
-          <h4>What would you like to buy?</h4>
-          <p>Start searching for products to add them to the list</p>
-          <button class="btn btn-primary" @click="$emit('onOpenProductsList')">Add products</button>
+      <template v-if="!props.selectedProducts.length">
+        <div
+          class="d-flex flex-column w-auto flex-grow-1 align-items-center justify-content-center text-center py-5"
+        >
+          <img src="/strawberry-svgrepo-com.svg" class="m-5" alt="empty-list" width="15%" />
+          <div>
+            <h4>What would you like to buy?</h4>
+            <p>Start searching for products to add them to the list</p>
+            <button class="btn btn-primary" @click="$emit('onOpenProductsList')">
+              Add products
+            </button>
+          </div>
         </div>
-      </div>
+      </template>
+      <template v-else>
+        <div v-for="product in props.selectedProducts" :key="product.name">
+          <ProductsListItem :product="product" />
+        </div>
+      </template>
     </div>
   </div>
 </template>

@@ -5,7 +5,7 @@ import ShoppingListItemCard from "../ShoppingListItemCard.vue";
 const meta = {
   title: "components/ShoppingListItemCard",
   component: ShoppingListItemCard,
-  render: (args: any) => ({
+  render: (args: unknown) => ({
     components: { ShoppingListItemCard },
     setup() {
       return { args };
