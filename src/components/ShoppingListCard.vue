@@ -5,7 +5,7 @@ const props = defineProps(["title", "selectedProducts"]);
 </script>
 
 <template>
-  <div class="card h-auto">
+  <div class="card h-auto w-auto my-2">
     <div class="card-body p-3">
       <h5 class="card-title">{{ props.title }}</h5>
       <div

@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { type ShoppingList } from "../server_mock/db_operations.ts";
 const props = defineProps(["data"]);
 </script>
 
 <template>
-  <RouterLink>
-    <div class="card w-75 mb-3">
+  <router-link :to="{ name: 'ShoppingListView', params: { id: props.data.id } }">
+    <div class="card mb-3">
       <div class="card-body">
         <h5 class="card-title">{{ props.data.name }}</h5>
         <div
@@ -19,5 +20,5 @@ const props = defineProps(["data"]);
         </div>
       </div>
     </div>
-  </RouterLink>
+  </router-link>
 </template>

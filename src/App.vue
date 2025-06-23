@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import HomeView from "./views/HomeView.vue";
+import MainNavbar from "./components/MainNavbar.vue";
 </script>
 
 <template>
-  <HomeView />
+  <main>
+    <MainNavbar />
+    <div class="container">
+      <router-view></router-view>
+    </div>
+  </main>
 </template>
 
 <style scoped></style>
