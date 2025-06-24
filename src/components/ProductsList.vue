@@ -1,26 +1,41 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import { useRoute } from "vue-router";
 import ChooseProductButton from "./ChooseProductButton.vue";
 import { useMockServer } from "../server_mock/db_operations.ts";
+import { useSelectedProductsStore } from "../stores/selectedProducts.ts";
 
 const emit = defineEmits(["updateProduct", "close"]);
-
+const route = useRoute();
 const mockServer = useMockServer();
+
 mockServer.loadProducts();
-const productsList = mockServer.currentProducts;
+const productsList = mockServer.fetchAllCurrentProducts();
+
+const selectedProductsStore = useSelectedProductsStore();
 
 const title = ref("Add products");
 const searchText = ref("");
 
 const filteredProductsList = computed(() => {
   if (searchText.value.length < 1) {
-    return productsList;
+    return productsList.value;
   }
-  return productsList.filter((item) => item.toLowerCase().includes(searchText.value.toLowerCase()));
+  return productsList.value.filter((item) =>
+    item.toLowerCase().includes(searchText.value.toLowerCase()),
+  );
 });
 
-function onProductUpdate(event) {
-  emit("updateProduct", event);
+const isProductsListShown = computed(() => {
+  return filteredProductsList.value.length;
+});
+
+function onProductUpdate(event: { name: string; counter: number }) {
+  selectedProductsStore.updateSelectedProductsByListId({
+    listId: route.params.id,
+    name: event.name,
+    counter: event.counter,
+  });
 }
 
 function onClose() {
@@ -29,7 +44,7 @@ function onClose() {
 </script>
 
 <template>
-  <div class="card p-4 w-75 h-auto">
+  <div class="card p-4 w-75 m-2 h-auto">
     <div class="card-body">
       <div class="modal-header">
         <h5 class="card-title">{{ title }}</h5>
@@ -42,7 +57,7 @@ function onClose() {
       placeholder="milk, for example"
       v-model="searchText"
     />
-    <div v-if="filteredProductsList.length">
+    <template v-if="isProductsListShown">
       <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <button
@@ -95,10 +110,10 @@ function onClose() {
           sdjkekjekjksk. sdkjsdnvksdnvk
         </div>
       </div>
-    </div>
-    <div v-else>
+    </template>
+    <template v-else>
       <h5>Suggested</h5>
       <ChooseProductButton :name="searchText" @update="onProductUpdate" />
-    </div>
+    </template>
   </div>
 </template>

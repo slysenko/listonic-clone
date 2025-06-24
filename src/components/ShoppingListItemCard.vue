@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { type ShoppingList } from "../server_mock/db_operations.ts";
 const props = defineProps(["data"]);
 </script>
 

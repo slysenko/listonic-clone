@@ -3,8 +3,9 @@ type ProductItem = {
   categoryId: Category["id"];
   counter: number;
   unit: string;
-  price: number;
+  price: number | null;
   description: string;
+  selected: boolean;
 };
 
 type Category = {

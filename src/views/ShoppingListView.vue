@@ -10,10 +10,6 @@ function openProductsList() {
   isProductsListShown.value = true;
 }
 
-function onProductUpdate(event) {
-  selectedProducts.value.push(event);
-}
-
 function onClose() {
   isProductsListShown.value = false;
 }
@@ -32,7 +28,7 @@ const title = ref("TITLE");
         />
       </div>
       <div class="col-6" v-if="isProductsListShown">
-        <ProductsList @updateProduct="onProductUpdate" @close="onClose" />
+        <ProductsList @close="onClose" />
       </div>
     </div>
   </div>

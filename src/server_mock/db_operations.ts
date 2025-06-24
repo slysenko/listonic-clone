@@ -10,7 +10,7 @@ export interface ShoppingList {
   name: string;
 }
 
-let id = 0;
+let id = 1;
 
 export const useMockServer = defineStore("server", () => {
   const currentProducts = ref<string[]>([]);

@@ -1,13 +1,24 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { useMockServer } from "../server_mock/db_operations.ts";
+import { useSelectedProductsStore } from "../stores/selectedProducts.ts";
 import ProductsListItem from "./ProductsListItem.vue";
+import { useRoute } from "vue-router";
 
-const props = defineProps(["title", "selectedProducts"]);
+const route = useRoute();
+
+const mockServer = useMockServer();
+const shoppingListId = route.params.id;
+const shoppingList = mockServer.fetchShoppingListById(shoppingListId);
+
+const selectedProductsStore = useSelectedProductsStore();
+const selectedProductsById = computed(() => selectedProductsStore.selectedProducts[shoppingListId]);
 </script>
 
 <template>
   <div class="card h-auto w-auto my-2">
     <div class="card-body p-3">
-      <h5 class="card-title">{{ props.title }}</h5>
+      <h5 class="card-title">{{ shoppingList.name }}</h5>
       <div
         class="progress"
         role="progressbar"
@@ -18,7 +29,7 @@ const props = defineProps(["title", "selectedProducts"]);
       >
         <div class="progress-bar" style="width: 0%"></div>
       </div>
-      <template v-if="!props.selectedProducts.length">
+      <template v-if="!selectedProductsById">
         <div
           class="d-flex flex-column w-auto flex-grow-1 align-items-center justify-content-center text-center py-5"
         >
@@ -33,7 +44,7 @@ const props = defineProps(["title", "selectedProducts"]);
         </div>
       </template>
       <template v-else>
-        <div v-for="product in props.selectedProducts" :key="product.name">
+        <div v-for="product in selectedProductsById" :key="product.name">
           <ProductsListItem :product="product" />
         </div>
       </template>
