@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
-import ChooseProductButton from "./ChooseProductButton.vue";
-import { useMockServer } from "../server_mock/db_operations.ts";
-import { useSelectedProductsStore } from "../stores/selectedProducts.ts";
+import AvailableProduct from "./AvailableProduct.vue";
+import { useProductsStore } from "../stores/products.ts";
 
 const emit = defineEmits(["updateProduct", "close"]);
 const route = useRoute();
-const mockServer = useMockServer();
+const productsStore = useProductsStore();
 
-mockServer.loadProducts();
-const productsList = mockServer.fetchAllCurrentProducts();
-
-const selectedProductsStore = useSelectedProductsStore();
+const productsList = computed(() => productsStore.availableProducts);
+const currentListIdFromRoute = ref(route.params.id);
+const shoppingList = productsStore.getShoppingListById(currentListIdFromRoute.value);
 
 const title = ref("Add products");
 const searchText = ref("");
@@ -30,12 +28,24 @@ const isProductsListShown = computed(() => {
   return filteredProductsList.value.length;
 });
 
-function onProductUpdate(event: { name: string; counter: number }) {
-  selectedProductsStore.updateSelectedProductsByListId({
-    listId: route.params.id,
-    name: event.name,
-    counter: event.counter,
-  });
+function onAddItem(productName: string) {
+  productsStore.addSelectedProduct(shoppingList.id, productName);
+}
+
+function onDeleteItem(productName: string) {
+  productsStore.deleteSelectedProduct(shoppingList.id, productName);
+}
+
+function getNewProductUiState() {
+  return {
+    counter: 0,
+    isSelected: false,
+    showAddButton: true,
+    showDeleteButton: false,
+    showCounter: false,
+    addButtonIcon: "primary",
+    deleteButtonIcon: "decrement",
+  };
 }
 
 function onClose() {
@@ -97,7 +107,12 @@ function onClose() {
           tabindex="0"
         >
           <template v-for="product in filteredProductsList" :key="product">
-            <ChooseProductButton :name="product" @update="onProductUpdate" />
+            <AvailableProduct
+              :productName="product"
+              :uiState="productsStore.getProductUIState(currentListIdFromRoute, product)"
+              @addItem="onAddItem"
+              @deleteItem="onDeleteItem"
+            />
           </template>
         </div>
         <div
@@ -113,7 +128,12 @@ function onClose() {
     </template>
     <template v-else>
       <h5>Suggested</h5>
-      <ChooseProductButton :name="searchText" @update="onProductUpdate" />
+      <AvailableProduct
+        :productName="searchText"
+        :uiState="getNewProductUiState"
+        @addItem="onAddItem"
+        @deleteItem="onDeleteItem"
+      />
     </template>
   </div>
 </template>

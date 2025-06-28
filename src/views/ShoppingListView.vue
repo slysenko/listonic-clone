@@ -4,7 +4,6 @@ import ShoppingListCard from "../components/ShoppingListCard.vue";
 import ProductsList from "../components/ProductsList.vue";
 
 const isProductsListShown = ref(false);
-const selectedProducts = ref([]);
 
 function openProductsList() {
   isProductsListShown.value = true;
@@ -13,19 +12,13 @@ function openProductsList() {
 function onClose() {
   isProductsListShown.value = false;
 }
-
-const title = ref("TITLE");
 </script>
 
 <template>
   <div class="container-md p-3">
     <div class="row">
       <div class="col-6">
-        <ShoppingListCard
-          :title="title"
-          :selectedProducts="selectedProducts"
-          @onOpenProductsList="openProductsList"
-        />
+        <ShoppingListCard @onOpenProductsList="openProductsList" />
       </div>
       <div class="col-6" v-if="isProductsListShown">
         <ProductsList @close="onClose" />

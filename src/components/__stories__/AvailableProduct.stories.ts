@@ -1,19 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import ChooseProductButton from "../ChooseProductButton.vue";
+import AvailableProduct from "../AvailableProduct.vue";
 
 const meta = {
-  title: "components/ChooseProductButton",
-  component: ChooseProductButton,
+  title: "components/AvailableProduct",
+  component: AvailableProduct,
   tags: ["autodocs"],
   render: (args: unknown) => ({
-    components: { ChooseProductButton },
+    components: { AvailableProduct },
     setup() {
       return { args };
     },
-    template: '<ChooseProductButton :name="args.name" />',
+    template: '<AvailableProduct :name="args.name" />',
   }),
-} satisfies Meta<typeof ChooseProductButton>;
+} satisfies Meta<typeof AvailableProduct>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

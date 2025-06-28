@@ -1,18 +1,14 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useMockServer } from "../server_mock/db_operations.ts";
-import { useSelectedProductsStore } from "../stores/selectedProducts.ts";
+import { ref } from "vue";
+import { useProductsStore } from "../stores/products.ts";
 import ProductsListItem from "./ProductsListItem.vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-
-const mockServer = useMockServer();
-const shoppingListId = route.params.id;
-const shoppingList = mockServer.fetchShoppingListById(shoppingListId);
-
-const selectedProductsStore = useSelectedProductsStore();
-const selectedProductsById = computed(() => selectedProductsStore.selectedProducts[shoppingListId]);
+const productsStore = useProductsStore();
+const currentListIdFromRoute = ref(route.params.id);
+const shoppingList = productsStore.getShoppingListById(currentListIdFromRoute.value);
+const selectedProductsByListId = productsStore.getSelectedProductsByList(shoppingList.id);
 </script>
 
 <template>
@@ -29,7 +25,7 @@ const selectedProductsById = computed(() => selectedProductsStore.selectedProduc
       >
         <div class="progress-bar" style="width: 0%"></div>
       </div>
-      <template v-if="!selectedProductsById">
+      <template v-if="!selectedProductsByListId">
         <div
           class="d-flex flex-column w-auto flex-grow-1 align-items-center justify-content-center text-center py-5"
         >
@@ -44,9 +40,10 @@ const selectedProductsById = computed(() => selectedProductsStore.selectedProduc
         </div>
       </template>
       <template v-else>
-        <div v-for="product in selectedProductsById" :key="product.name">
+        <div v-for="product in selectedProductsByListId" :key="product.name">
           <ProductsListItem :product="product" />
         </div>
+        <button class="btn btn-primary" @click="$emit('onOpenProductsList')">Add products</button>
       </template>
     </div>
   </div>

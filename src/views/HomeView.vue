@@ -2,15 +2,15 @@
 import { ref } from "vue";
 import ShoppingListItemCard from "../components/ShoppingListItemCard.vue";
 import CreateNewListModal from "../components/CreateNewListModal.vue";
-import { useMockServer } from "../server_mock/db_operations.ts";
+import { useProductsStore } from "../stores/products.ts";
 
 const title = ref("Your Shopping Lists");
-const mockServer = useMockServer();
+const productsStore = useProductsStore();
 
-const shoppingLists = mockServer.fetchAllShoppingLists();
+const shoppingLists = productsStore.shoppingLists;
 
 function createNewList(event) {
-  mockServer.createNewShoppingList(event.name);
+  productsStore.createNewShoppingList(event.name);
 }
 </script>
 
