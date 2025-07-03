@@ -11,7 +11,6 @@ const productsStore = useProductsStore();
 const productsList = computed(() => productsStore.availableProducts);
 const currentListIdFromRoute = ref(route.params.id);
 const shoppingList = productsStore.getShoppingListById(currentListIdFromRoute.value);
-
 const title = ref("Add products");
 const searchText = ref("");
 

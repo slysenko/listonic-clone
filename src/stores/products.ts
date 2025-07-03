@@ -55,6 +55,7 @@ export const useProductsStore = defineStore("products", () => {
       const selectedProduct = selectedListProducts[productName];
       const counter = selectedProduct?.counter || 0;
       const isSelected = counter > 0;
+      const isPurchased = selectedProduct?.selected;
 
       return {
         counter,
@@ -64,6 +65,7 @@ export const useProductsStore = defineStore("products", () => {
         showCounter: counter > 1,
         addButtonIcon: isSelected ? "selected" : "primary",
         deleteButtonIcon: counter === 1 ? "remove" : "decrement",
+        isPurchased,
       };
     };
   });
@@ -76,7 +78,7 @@ export const useProductsStore = defineStore("products", () => {
       unit: "",
       price: null,
       description: "",
-      selected: true,
+      selected: false,
     };
   }
 
@@ -130,6 +132,12 @@ export const useProductsStore = defineStore("products", () => {
     }
   }
 
+  function toggleSelectedProduct(listId: number, productName: string) {
+    const selectedListProducts = getSelectedProductsByList.value(listId)!;
+    const selectedProduct = selectedListProducts[productName];
+    selectedProduct.selected = !selectedProduct.selected;
+  }
+
   loadAvailableProducts();
 
   return {
@@ -144,5 +152,6 @@ export const useProductsStore = defineStore("products", () => {
     deleteShoppingList,
     addSelectedProduct,
     deleteSelectedProduct,
+    toggleSelectedProduct,
   };
 });

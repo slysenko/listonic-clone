@@ -11,7 +11,7 @@ const meta = {
     setup() {
       return { args };
     },
-    template: '<AvailableProduct :name="args.name" />',
+    template: '<AvailableProduct :productName="args.productName" :uiState="args.uiState" />',
   }),
 } satisfies Meta<typeof AvailableProduct>;
 
@@ -20,6 +20,15 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    name: "Apple",
+    productName: "Apple",
+    uiState: {
+      counter: 0,
+      isSelected: false,
+      showAddButton: true,
+      showDeleteButton: false,
+      showCounter: false,
+      addButtonIcon: "primary",
+      deleteButtonIcon: "decrement",
+    },
   },
 };
