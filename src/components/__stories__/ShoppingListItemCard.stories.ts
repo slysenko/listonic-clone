@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import { useProductsStore } from "../../stores/products.ts";
 
 import ShoppingListItemCard from "../ShoppingListItemCard.vue";
 
@@ -25,6 +26,14 @@ export const Default: Story = {
   args: {
     data: {
       name: "Test List",
+      id: 1,
+      itemsCount: 0,
+      deleted: false,
+      active: true,
     },
+  },
+  play: async () => {
+    const store = useProductsStore();
+    store.createNewShoppingList("test");
   },
 };

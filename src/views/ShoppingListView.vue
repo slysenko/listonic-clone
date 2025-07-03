@@ -18,7 +18,10 @@ function onClose() {
   <div class="container-md p-3">
     <div class="row">
       <div class="col-6">
-        <ShoppingListCard @onOpenProductsList="openProductsList" />
+        <ShoppingListCard
+          :isProductsListShown="isProductsListShown"
+          @onOpenProductsList="openProductsList"
+        />
       </div>
       <div class="col-6" v-if="isProductsListShown">
         <ProductsList @close="onClose" />

@@ -63,22 +63,6 @@ function deleteOne() {
           </svg>
         </div>
       </div>
-      <!-- <button
-        type="button"
-        class="btn btn-outline-secondary me-3 choose-product-card-plus"
-        @click="addOne"
-      >
-        {{ props.name }}
-        <span class="badge text-bg-secondary" v-if="counter > 0">{{ counter }}</span>
-      </button>
-      <button
-        type="button"
-        class="btn btn-outline-secondary choose-product-card-minus"
-        v-if="counter > 0"
-        @click="deleteOne"
-      >
-        -
-      </button> -->
     </div>
   </div>
 </template>
